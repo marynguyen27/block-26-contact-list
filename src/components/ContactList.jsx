@@ -7,19 +7,24 @@ const ContactList = ({ contacts, setSelectedContactId }) => {
   }
 
   return (
-    <div className='contact-list'>
-      {contacts.map((contact) => (
-        <div key={contact.id}>
-          <p>Name: {contact.name}</p>
-          <p>Username: {contact.username}</p>
-          <p>Email: {contact.email}</p>
-          <p>Address: {contact.address}</p>
-          <p>Phone: {contact.phone}</p>
-          <p>Website: {contact.website}</p>
-          <p>id: {contact.id}</p>
-        </div>
-      ))}
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {contacts.map((contact) => (
+          <ContactRow
+            key={contact.id}
+            contact={contact}
+            setSelectedContactId={setSelectedContactId} // Pass setSelectedContactId to each ContactRow
+          />
+        ))}
+      </tbody>
+    </table>
   );
 };
 

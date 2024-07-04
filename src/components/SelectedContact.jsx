@@ -8,45 +8,61 @@ export default function SelectedContact({
 
   useEffect(() => {
     if (selectedContactId) {
-      fetchContact(selectedContactId); // Call fetchContact function when selectedContactId changes
+      fetchContact(selectedContactId);
     }
   }, [selectedContactId]);
 
-  useEffect(() => {
-    // This useEffect callback runs once on component mount due to the empty dependency array
-    console.log('Component mounted or dependency changed.');
-    // Additional logic can go here if needed
-  }, []);
-
   const fetchContact = (id) => {
     fetch(`https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users/${id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response broke');
+        }
+        return response.json();
+      })
       .then((data) => {
         setContact(data);
       })
       .catch((error) => {
         console.error('Error fetching contact:', error);
+        setContact(null);
       });
   };
 
-  console.log('Contact:', contact);
-
   if (!selectedContactId) {
     return null;
+  }
+  if (!contact) {
+    return <p>Loading contact details...</p>;
   }
 
   return (
     <div className='selected-contact'>
       <h2>Contact Details</h2>
       <p>
-        <strong>Name:</strong> {contact?.name}
+        <strong>Name:</strong> {contact.name}
       </p>
       <p>
-        <strong>Email:</strong> {contact?.email}
+        <strong>Username:</strong> {contact.username}
       </p>
       <p>
-        <strong>Phone:</strong> {contact?.phone}
+        <strong>Email:</strong> {contact.email}
       </p>
+      <p>
+        <strong>Address:</strong> {contact.address.street},{' '}
+        {contact.address.suite}, {contact.address.city},{' '}
+        {contact.address.zipcode}
+      </p>
+      <p>
+        <strong>Phone:</strong> {contact.phone}
+      </p>
+      <p>
+        <strong>Website:</strong> {contact.website}
+      </p>
+      <p>
+        <strong>Id:</strong> {contact.id}
+      </p>
+
       <button onClick={() => setSelectedContactId(null)}>Go Back</button>
     </div>
   );
