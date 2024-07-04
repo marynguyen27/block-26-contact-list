@@ -15,13 +15,13 @@ export default function ContactList() {
               <td>Email</td>
               <td>Phone</td>
             </tr>
-             {contacts.map((contact, index) => (
+        {contacts && contacts.map((contact, index) => (
           <tr key={index}>
             <td>{contact.name}</td>
             <td>{contact.email}</td>
             <td>{contact.phone}</td>
           </tr>
-             }
+        ))}
           </tbody>
         </table>
     ); 
